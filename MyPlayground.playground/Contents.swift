@@ -8,6 +8,9 @@ Assign
  
 **/
 
+
+//Sink type subscriber
+
 func sinkExampleManual() {
     let publisher = [1, 3, 5, 8, 11].publisher
     
@@ -34,3 +37,25 @@ func sinkExampleShorthand() {
 }
 
 sinkExampleShorthand()
+
+//Assign type subscriber
+
+class Forum {
+    var latestMessage: String = "" {
+        didSet {
+            print("Latest message is now: \(latestMessage)")
+        }
+    }
+}
+
+func assignExampleManua() {
+    let messages = ["Hey there!", "How's it going?"].publisher
+    
+    let forum = Forum()
+    
+    let subscriber = Subscribers.Assign<Forum, String>(object: forum, keyPath: \.latestMessage)
+    
+    messages.subscribe(subscriber)
+}
+
+assignExampleManua()
