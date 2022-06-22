@@ -48,7 +48,15 @@ class Forum {
     }
 }
 
-func assignExampleManua() {
+func assignExampleManual() {
+    let messages = ["Hey there!", "How's it going?"].publisher
+    
+    let forum = Forum()
+    
+    messages.assign(to: \.latestMessage, on: forum)
+}
+
+func assignExampleShorthand() {
     let messages = ["Hey there!", "How's it going?"].publisher
     
     let forum = Forum()
@@ -58,4 +66,4 @@ func assignExampleManua() {
     messages.subscribe(subscriber)
 }
 
-assignExampleManua()
+assignExampleShorthand()
