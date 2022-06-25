@@ -37,9 +37,16 @@ subject3.sink { completion in
 subject3.send("3) Testing completion...")
 subject3.send(completion: .failure(CustomError()))
 
-
+print("------------")
 
 //CurrentValueSubject
+
+let wordOfTheDay = CurrentValueSubject<String, Never>("bellicose")
+wordOfTheDay.sink { print("The word of the day is '\($0)'.")}
+wordOfTheDay.send("erudite")
+
+wordOfTheDay.sink { print("Second subscriber received \($0)")}
+wordOfTheDay.send("cogitable")
 
 
 
