@@ -48,6 +48,8 @@ wordOfTheDay.send("erudite")
 wordOfTheDay.sink { print("Second subscriber received \($0)")}
 wordOfTheDay.send("cogitable")
 
+let buttonTapSubject = PassthroughSubject<Void, Never>()
+buttonTapSubject.send()
 
 
 
