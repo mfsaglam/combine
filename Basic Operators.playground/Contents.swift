@@ -37,3 +37,10 @@ example("Remove Duplicates") {
         .removeDuplicates()
         .sink { print($0) }
 }
+
+example("Compact Map") {
+    let values: [Int?] = [1, nil, 2, nil, 3]
+    _ = values.publisher
+        .compactMap { $0 }
+        .sink { print($0) }
+}
