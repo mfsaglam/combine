@@ -43,4 +43,8 @@ example("Compact Map") {
     _ = values.publisher
         .compactMap { $0 }
         .sink { print($0) }
+    
+    ["a", "12", "asd", "1", "22"].publisher
+        .compactMap{ Int($0) }
+        .sink { print($0) }
 }
