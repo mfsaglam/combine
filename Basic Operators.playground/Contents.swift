@@ -31,3 +31,9 @@ example("Scan") {
         .map { $0.avg }
         .sink { print($0) }
 }
+
+example("Remove Duplicates") {
+    [1, 1, 1, 1, 1, 1, 2, 2, 3, 4, 1, 1, 2, 2,].publisher
+        .removeDuplicates()
+        .sink { print($0) }
+}
