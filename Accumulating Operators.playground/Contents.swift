@@ -7,5 +7,11 @@ func example(_ title: String, _ block: () -> Void ) {
 }
 
 example("Reduce") {
-    
+    let values = [1, 5, 12]
+    values.publisher
+        .print()
+        .reduce(0) { sum, value in
+            sum + value
+        }
+        .sink { print($0) }
 }
