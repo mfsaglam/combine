@@ -47,3 +47,19 @@ example("output(at:)") {
         .output(at: 2)
         .sink { print($0) }
 }
+
+example("max") {
+    let values = [1, 5, 12]
+    values.publisher
+        .print()
+        .max()
+        .sink { print($0) }
+}
+
+example("min") {
+    let values = [1, 5, 12]
+    values.publisher
+        .print()
+        .min()
+        .sink { print($0) }
+}
