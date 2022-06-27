@@ -15,3 +15,11 @@ example("Reduce") {
         }
         .sink { print($0) }
 }
+
+example("Count") {
+    let values = [1, 5, 12]
+    values.publisher
+        .print()
+        .count()
+        .sink { print($0) }
+}
