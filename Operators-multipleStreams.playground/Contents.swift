@@ -35,3 +35,22 @@ example("zip") {
         .map {"\($0.0) -> \($0.1)"}
         .sink{ print($0) }
 }
+
+example("Combine Latest") {
+    let pub1 = CurrentValueSubject<Bool, Never>(false)
+    let pub2 = CurrentValueSubject<Bool, Never>(false)
+    let pub3 = CurrentValueSubject<Bool, Never>(false)
+    
+    pub1.send(true)
+    
+    pub1.combineLatest(pub2, pub3)
+        .print("CL")
+        .map { switches in
+            switches.0 && switches.1 && switches.2
+        }
+        .filter { $0 }
+        .sink { print($0) }
+    
+    pub2.send(true)
+    pub3.send(true)
+}
