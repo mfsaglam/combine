@@ -23,3 +23,11 @@ example("Count") {
         .count()
         .sink { print($0) }
 }
+
+example("First") {
+    let values = [1, 5, 12]
+    values.publisher
+        .print()
+        .first()
+        .sink { print($0) }
+}
