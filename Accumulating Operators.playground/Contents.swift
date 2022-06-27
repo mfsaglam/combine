@@ -31,3 +31,11 @@ example("First") {
         .first()
         .sink { print($0) }
 }
+
+example("Last") {
+    let values = [1, 5, 12]
+    values.publisher
+        .print()
+        .last()
+        .sink { print($0) }
+}
