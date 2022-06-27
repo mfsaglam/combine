@@ -26,3 +26,12 @@ example("merge multiple") {
     Publishers.MergeMany([pub1, pub2, pub3])
         .sink{ print($0) }
 }
+
+example("zip") {
+    let ints = [1, 2, 3].publisher
+    let letters = ["a", "b", "c", "d"].publisher
+    
+    ints.zip(letters)
+        .map {"\($0.0) -> \($0.1)"}
+        .sink{ print($0) }
+}
