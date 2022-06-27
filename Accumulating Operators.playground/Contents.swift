@@ -63,3 +63,11 @@ example("min") {
         .min()
         .sink { print($0) }
 }
+
+example("collect") {
+    let values = [1, 5, 12]
+    values.publisher
+        .print()
+        .collect()
+        .sink { print($0) }
+}
