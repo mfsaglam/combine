@@ -39,3 +39,11 @@ example("Last") {
         .last()
         .sink { print($0) }
 }
+
+example("output(at:)") {
+    let values = [1, 5, 12]
+    values.publisher
+        .print()
+        .output(at: 2)
+        .sink { print($0) }
+}
