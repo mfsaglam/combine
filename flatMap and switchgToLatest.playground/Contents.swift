@@ -16,10 +16,12 @@ var cancellables: Set<AnyCancellable> = []
 
 func exampleFlatMap() {
     urls.publisher
+        .print("URLS:")
         .flatMap(maxPublishers: .max(2)) {
             URLSession.shared.dataTaskPublisher(for: $0)
                 .assertNoFailure()
         }
+        .print("FLATMAP:")
         .sink { data, response in
             print("Received \(data.count) bytes from \(response.url!)")
         }
