@@ -13,3 +13,17 @@ let urls = [
 ].map { URL(string: $0)! }
 
 var cancellables: Set<AnyCancellable> = []
+
+func exampleFlatMap() {
+    urls.publisher
+        .flatMap(maxPublishers: .max(2)) {
+            URLSession.shared.dataTaskPublisher(for: $0)
+                .assertNoFailure()
+        }
+        .sink { data, response in
+            print("Received \(data.count) bytes from \(response.url!)")
+        }
+        .store(in: &cancellables)
+}
+
+exampleFlatMap()
