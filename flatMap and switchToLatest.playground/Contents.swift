@@ -29,3 +29,20 @@ func exampleFlatMap() {
 }
 
 exampleFlatMap()
+
+func exampleSwitchToLatest() {
+    urls.publisher
+        .print("URLS:")
+        .map {
+            URLSession.shared.dataTaskPublisher(for: $0)
+                .assertNoFailure()
+        }
+        .switchToLatest()
+        .print("SWITCH TO LATEST:")
+        .sink { data, response in
+            print("Received \(data.count) bytes from \(response.url!)")
+        }
+        .store(in: &cancellables)
+}
+
+exampleSwitchToLatest()
