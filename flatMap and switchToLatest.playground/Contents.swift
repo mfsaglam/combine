@@ -20,6 +20,7 @@ func exampleFlatMap() {
         .flatMap(maxPublishers: .max(2)) {
             URLSession.shared.dataTaskPublisher(for: $0)
                 .assertNoFailure()
+                .print("FETCH:\($0)")
         }
         .print("FLATMAP:")
         .sink { data, response in
