@@ -31,4 +31,6 @@ class TickTock {
     }
 }
 
+let tick = TickTock()
+
 
