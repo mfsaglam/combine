@@ -29,9 +29,10 @@ func sinkExampleManual() {
 func sinkExampleShorthand() {
     let publisher = [1, 3, 5, 8, 11].publisher
     publisher.sink { completion in
-        print(completion)
+        print("sink completion: \(completion)")
     } receiveValue: { value in
         print(value)
+        //we are receiving the value, and handling it in this block.
     }
 
 }
@@ -48,15 +49,16 @@ class Forum {
     }
 }
 
-func assignExampleManual() {
+func assignExampleShorthand() {
     let messages = ["Hey there!", "How's it going?"].publisher
     
     let forum = Forum()
     
     messages.assign(to: \.latestMessage, on: forum)
+    //we are assigning the value from messages subscriber, to the latestMessage property.
 }
 
-func assignExampleShorthand() {
+func assignExampleManual() {
     let messages = ["Hey there!", "How's it going?"].publisher
     
     let forum = Forum()
