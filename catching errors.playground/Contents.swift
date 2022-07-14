@@ -33,4 +33,5 @@ subject2
 
 subject2.send(1)
 subject2.send(completion: .failure(DummyError()))
+subject2.send(2)
 
