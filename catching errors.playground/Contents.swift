@@ -35,3 +35,17 @@ subject2.send(1)
 subject2.send(completion: .failure(DummyError()))
 subject2.send(2)
 
+let publisher3 = [4, 2, 5, 1, 5, 2, 1].publisher
+
+let pub4 = publisher3.tryMap { value -> Int in
+    if value < 2 {
+        throw DummyError()
+    } else {
+        return value
+    }
+}
+
+pub4
+    .replaceError(with: -1)
+    .sink { print("value \($0)") }
+
