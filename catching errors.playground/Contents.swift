@@ -13,4 +13,5 @@ subject.sink { completion in
 
 subject.send(1)
 subject.send(completion: .failure(DummyError()))
+subject.send(2)
 
