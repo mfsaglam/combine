@@ -15,5 +15,20 @@ enum FriendlyErrors: Error {
     case other(URLError)
 }
 
-let networkPublisher = PassthroughSubject<String, FriendlyErrors>()
+let networkPublisher = PassthroughSubject<String, URLError>()
 
+let pub = networkPublisher
+    .mapError { error -> FriendlyErrors in
+        switch error {
+        case URLError.badURL,
+            URLError.cannotConnectToHost,
+            URLError.notConnectedToInternet,
+            URLError.networkConnectionLost:
+            return FriendlyErrors.unableToConnect
+        default:
+            return FriendlyErrors.other(error)
+        }
+    }
+
+print (type(of: pub).Output)
+print (type(of: pub).Failure)
