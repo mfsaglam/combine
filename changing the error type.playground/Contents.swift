@@ -32,3 +32,7 @@ let pub = networkPublisher
 
 print (type(of: pub).Output)
 print (type(of: pub).Failure)
+
+let pub2 = networkPublisher.assertNoFailure()
+
+print(type(of: pub2).Failure)
