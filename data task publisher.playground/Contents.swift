@@ -26,6 +26,23 @@ func example1() {
         }
 }
 
+enum HTTPError: Error {
+    case nonHttpResponse
+    case requestFailed(Int)
+    case networkingError(URLError)
+    
+    var description: String {
+        switch self {
+        case .nonHttpResponse:
+            return "Non HTTP URL Response received"
+        case .requestFailed(let status):
+            return "Received HTTP \(status)"
+        case .networkingError(let error):
+            return "Networking Error: \(error)"
+        }
+    }
+}
+
 func fetchData() -> AnyPublisher<String?, Never> {
     session.dataTaskPublisher(for: url)
         .print()
