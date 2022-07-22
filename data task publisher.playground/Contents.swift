@@ -10,6 +10,6 @@ let session = URLSession.shared
 
 let url = URL(string: "https://jsonplaceholder.typicode.com/posts/1")!
 
-func example() {
+func example1() {
     
 }
