@@ -43,23 +43,32 @@ enum HTTPError: Error {
     }
 }
 
-func fetchData() -> AnyPublisher<String?, Never> {
-    session.dataTaskPublisher(for: url)
+func fetchData() -> AnyPublisher<String?, HTTPError> {
+    let url = URL(string: "https://httpbin.org/status/422")!
+    return session.dataTaskPublisher(for: url)
+        .mapError { HTTPError.networkingError($0) }
         .print()
-        .map { $0.data }
-        .replaceError(with: Data())
+        .tryMap {
+            guard let http = $0.response as? HTTPURLResponse else {
+                throw HTTPError.nonHttpResponse
+            }
+            guard http.statusCode == 200 else {
+                throw HTTPError.requestFailed(http.statusCode)
+            }
+            return $0.data
+        }
+        .mapError { $0 as! HTTPError }
         .map { String(data: $0, encoding: .utf8) }
         .eraseToAnyPublisher()
 }
 
-print("getting publisher...")
-
-let publisher = fetchData()
-
-var cancellable: AnyCancellable?
-
-DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-    cancellable = publisher.sink { response in
-        print(response ?? "<no body>")
+var cancellable = fetchData()
+    .catch { (error: HTTPError) -> Just<String?> in
+        print("🔴 \(error.description)")
+        return Just(nil)
     }
-}
+    .sink {
+        if let body = $0 {
+            print(body)
+        }
+    }
