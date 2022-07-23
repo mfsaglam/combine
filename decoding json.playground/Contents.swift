@@ -16,3 +16,15 @@ struct Post: Codable {
     let userId: Int
 }
 
+var cancellables: Set<AnyCancellable> = []
+
+session.dataTaskPublisher(for: url)
+    .map { $0.data }
+    .decode(type: Post.self, decoder: JSONDecoder())
+    .sink { completion in
+        print("completion: \(completion)")
+    } receiveValue: { post in
+        print("post: \(post.title)")
+    }
+    .store(in: &cancellables)
+
