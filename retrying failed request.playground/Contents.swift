@@ -41,7 +41,7 @@ extension Publisher where Output == (data: Data, response: URLResponse) {
     }
 }
 
-func fetchPost() -> AnyPublisher<Post, Error> {
+func fetchPost() -> AnyPublisher<Post, HTTPError> {
     session.dataTaskPublisher(for: url)
         .assumeHTTP()
         .tryMap {
@@ -52,6 +52,13 @@ func fetchPost() -> AnyPublisher<Post, Error> {
             return $0.data
         }
         .decode(type: Post.self, decoder: JSONDecoder())
+        .mapError { error in
+            if error is HTTPError {
+                return error as! HTTPError
+            } else {
+                return HTTPError.networkError(error)
+            }
+        }
         .eraseToAnyPublisher()
 }
 
