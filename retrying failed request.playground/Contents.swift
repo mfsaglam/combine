@@ -43,6 +43,19 @@ enum HTTPError: Error {
     case serverError(Int)
     case networkError(Error)
     case decodingError(DecodingError)
+    
+    var isRetriable: Bool {
+        switch self {
+        case .nonHTTPResponse, .networkError(_), .serverError(_):
+            return true
+        case .requestFailed(let status):
+            let timeOutStatus = 408
+            let rateLimitStatus = 428
+            return [timeOutStatus, rateLimitStatus].contains(status)
+        case .decodingError(_):
+            return false
+        }
+    }
 }
 
 publisher
