@@ -22,8 +22,28 @@ struct TemporaryIssue: Error { }
 
 var simulatedErrors = 3
 
+extension Publisher where Output == (data: Data, response: URLResponse) {
+    func assumeHTTP() -> AnyPublisher<(data: Data, response: HTTPURLResponse), HTTPError> {
+        tryMap { (data: Data, response: URLResponse) -> (Data, HTTPURLResponse) in
+            guard let http = response as? HTTPURLResponse else {
+                throw HTTPError.nonHTTPResponse
+            }
+            return (data, http)
+        }
+        .mapError { error in
+            if error is HTTPError {
+                return error as! HTTPError
+            } else {
+                return HTTPError.networkError(error)
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+}
+
 func fetchPost() -> AnyPublisher<Post, Error> {
     session.dataTaskPublisher(for: url)
+        .assumeHTTP()
         .tryMap {
             if simulatedErrors > 0 {
                 simulatedErrors -= 1
