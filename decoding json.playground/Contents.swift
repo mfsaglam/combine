@@ -19,6 +19,7 @@ struct Post: Codable {
 var cancellables: Set<AnyCancellable> = []
 
 session.dataTaskPublisher(for: url)
+//we add the map operator to get the data from the tuple: dataTaskPublisher output type is a tuple (data, URLResponse)
     .map { $0.data }
     .decode(type: Post.self, decoder: JSONDecoder())
     .sink { completion in
