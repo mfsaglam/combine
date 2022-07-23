@@ -37,6 +37,14 @@ func fetchPost() -> AnyPublisher<Post, Error> {
 
 let publisher = fetchPost()
 
+enum HTTPError: Error {
+    case nonHTTPResponse
+    case requestFailed(Int)
+    case serverError(Int)
+    case networkError(Error)
+    case decodingError(DecodingError)
+}
+
 publisher
     .print()
     .retry(3)
